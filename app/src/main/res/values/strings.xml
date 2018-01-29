@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MenuOnline</string>
+    <string name="d_nh_cho_kh_ch_h_ng">Dành Cho Khách Hàng</string>
+    <string name="d_nh_cho_c_a_h_ng">Dành Cho Cửa Hàng</string>
 </resources>

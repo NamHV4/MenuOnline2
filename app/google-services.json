@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "594249966598",
+    "firebase_url": "https://menuonline-26030.firebaseio.com",
+    "project_id": "menuonline-26030",
+    "storage_bucket": "menuonline-26030.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:594249966598:android:e03721eb3f353d57",
+        "android_client_info": {
+          "package_name": "com.codedao.menuonline"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "594249966598-ot86nv05aftlg1cjtq5lp71esann36fc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.codedao.menuonline",
+            "certificate_hash": "a8e7bc2070939ff4d4ad7f07a64631b60489f6f7"
+          }
+        },
+        {
+          "client_id": "594249966598-9jvgsp50j7o81n35pnk55b81cdh723br.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFoeTIDmnWb-mBNmRYKVEx_BPi-o5YTl0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "594249966598-9jvgsp50j7o81n35pnk55b81cdh723br.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
