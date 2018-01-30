@@ -20,7 +20,9 @@
             android:name=".RegisterActivity"
             android:theme="@style/Translucent" />
         <activity android:name=".Host.MainScreenHost" />
-        <activity android:name=".Guest.MainScreenGuest"></activity>
+        <activity
+            android:name=".Guest.MainScreenGuest"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
