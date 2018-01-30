@@ -1,4 +1,4 @@
-package com.codedao.menuonline;
+package com.codedao.menuonline.Host;
 
 import android.os.Build;
 import android.support.annotation.RequiresApi;
@@ -8,7 +8,9 @@ import android.transition.Explode;
 import android.view.View;
 import android.widget.ImageView;
 
-public class MainScreen extends AppCompatActivity {
+import com.codedao.menuonline.R;
+
+public class MainScreenHost extends AppCompatActivity {
     int flag=0;
     ImageView imgTable;
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
