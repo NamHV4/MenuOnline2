@@ -13,4 +13,5 @@
     <string name="guest">Guest user</string>
     <string name="title">Foody</string>
     <string name="table">Table</string>
+    <string name="checkin_for">Check in for</string>
 </resources>
