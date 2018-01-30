@@ -61,7 +61,7 @@ public class MainScreenGuest extends AppCompatActivity implements RecyclerviewTa
     @Override
     public void onItemCick(int position) {
         int emptyChair = listTables.get(position).getEmtyChair();
-        final FancyGifDialog.Builder fancyGifDialog = new FancyGifDialog.Builder(this).setGifResource(R.drawable.mountain)
+        final FancyGifDialog.Builder fancyGifDialog = new FancyGifDialog.Builder(this).setGifResource(R.drawable.eat)
                 .setMessage("Empty chair: " + emptyChair).setNegativeBtnText("Cancel").setTitle("Wanna do somethin'")
                 .OnNegativeClicked(new FancyGifDialogListener() {
                     @Override
