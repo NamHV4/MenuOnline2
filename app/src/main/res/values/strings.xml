@@ -7,7 +7,9 @@
     <string name="password">password</string>
     <string name="go">go</string>
     <string name="forgotPassword">forgot password</string>
-    <string name="register">register</string>
+    <string name="register">Register</string>
     <string name="repeat_password">repeat password</string>
     <string name="next">next</string>
+    <string name="guest">Guest user</string>
+    <string name="title">Foody</string>
 </resources>

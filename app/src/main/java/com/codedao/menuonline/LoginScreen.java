@@ -14,26 +14,26 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class SplashScreen extends AppCompatActivity{
+public class LoginScreen extends AppCompatActivity {
     private EditText etUsername;
     private EditText etPassword;
     private Button btGo;
     private CardView cv;
     private FloatingActionButton fab;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
         getSupportActionBar().hide();
         initView();
         setListener();
+
     }
 
 
-
     private void initView() {
+
         etUsername = findViewById(R.id.et_username);
         etPassword = findViewById(R.id.et_password);
         btGo = findViewById(R.id.bt_go);
@@ -51,8 +51,8 @@ public class SplashScreen extends AppCompatActivity{
 
                 getWindow().setExitTransition(explode);
                 getWindow().setEnterTransition(explode);
-                ActivityOptionsCompat oc2 = ActivityOptionsCompat.makeSceneTransitionAnimation(SplashScreen.this);
-                Intent i2 = new Intent(SplashScreen.this,LoginSuccessActivity.class);
+                ActivityOptionsCompat oc2 = ActivityOptionsCompat.makeSceneTransitionAnimation(LoginScreen.this);
+                Intent i2 = new Intent(LoginScreen.this, MainScreen.class);
 
                 startActivity(i2, oc2.toBundle());
             }
@@ -63,8 +63,8 @@ public class SplashScreen extends AppCompatActivity{
             public void onClick(View view) {
                 getWindow().setExitTransition(null);
                 getWindow().setEnterTransition(null);
-                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(SplashScreen.this, fab, fab.getTransitionName());
-                startActivity(new Intent(SplashScreen.this, RegisterActivity.class), options.toBundle());
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(LoginScreen.this, fab, fab.getTransitionName());
+                startActivity(new Intent(LoginScreen.this, RegisterActivity.class), options.toBundle());
             }
         });
     }
