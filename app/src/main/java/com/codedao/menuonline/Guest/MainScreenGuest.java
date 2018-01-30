@@ -4,15 +4,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Toast;
 
 import com.codedao.menuonline.Adapter.RecyclerviewTableAdapter;
+import com.codedao.menuonline.Interface.RecyclerviewTableItemClick;
 import com.codedao.menuonline.Model.Table;
 import com.codedao.menuonline.R;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-public class MainScreenGuest extends AppCompatActivity {
+public class MainScreenGuest extends AppCompatActivity implements RecyclerviewTableItemClick{
     RecyclerView rcvTable;
     ArrayList<Table> listTables;
     RecyclerviewTableAdapter adapter;
@@ -28,7 +30,7 @@ public class MainScreenGuest extends AppCompatActivity {
             int a=randomMaxChair();
             listTables.add(new Table(i+1,randomEmptyChair(a),a));
         }
-        adapter=new RecyclerviewTableAdapter(listTables,this);
+        adapter=new RecyclerviewTableAdapter(listTables,this,this);
         rcvTable.setAdapter(adapter);
     }
 
@@ -37,12 +39,17 @@ public class MainScreenGuest extends AppCompatActivity {
     }
     private int randomMaxChair(){
         Random r=new Random();
-        return r.nextInt(3)+2;
+        return r.nextInt(5)+2;
 
     }
     private int randomEmptyChair(int x){
         Random r=new Random();
         return r.nextInt(x);
 
+    }
+
+    @Override
+    public void onItemCick(int position) {
+        Toast.makeText(this, "Empty chair "+listTables.get(position).getEmtyChair(), Toast.LENGTH_SHORT).show();
     }
 }
