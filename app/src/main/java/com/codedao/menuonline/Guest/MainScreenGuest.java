@@ -27,6 +27,11 @@ public class MainScreenGuest extends AppCompatActivity implements RecyclerviewTa
         setContentView(R.layout.activity_main_screen_guest2);
         getSupportActionBar().hide();
         initView();
+        dummyData();
+
+    }
+
+    private void dummyData() {
         listTables = new ArrayList<>();
         rcvTable.setLayoutManager(new GridLayoutManager(this, 3));
         for (int i = 0; i < 15; i++) {
@@ -57,7 +62,7 @@ public class MainScreenGuest extends AppCompatActivity implements RecyclerviewTa
     public void onItemCick(int position) {
         int emptyChair = listTables.get(position).getEmtyChair();
         final FancyGifDialog.Builder fancyGifDialog = new FancyGifDialog.Builder(this).setGifResource(R.drawable.mountain)
-                .setMessage("Empty chair: " + emptyChair).setNegativeBtnText("Cancel")
+                .setMessage("Empty chair: " + emptyChair).setNegativeBtnText("Cancel").setTitle("Wanna do somethin'")
                 .OnNegativeClicked(new FancyGifDialogListener() {
                     @Override
                     public void OnClick() {
@@ -70,7 +75,7 @@ public class MainScreenGuest extends AppCompatActivity implements RecyclerviewTa
 
                     }
                 })
-                .isCancellable(false);
+                .isCancellable(true);
         fancyGifDialog.setPositiveBtnText(emptyChair == 0 ? "Check out" : "Check in");
         fancyGifDialog.build();
     }
