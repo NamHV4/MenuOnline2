@@ -39,6 +39,9 @@ public class MainScreenGuest extends AppCompatActivity implements RecyclerviewTa
             listTables.add(new Table(i + 1, randomEmptyChair(a), a));
         }
         adapter = new RecyclerviewTableAdapter(listTables, this, this);
+        rcvTable.setDrawingCacheEnabled(true);
+        rcvTable.setHasFixedSize(true);
+        rcvTable.setItemViewCacheSize(15);
         rcvTable.setAdapter(adapter);
     }
 

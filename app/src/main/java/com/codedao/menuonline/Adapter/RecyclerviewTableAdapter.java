@@ -40,7 +40,7 @@ public class RecyclerviewTableAdapter extends RecyclerView.Adapter<RecyclerviewT
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         holder.index.setText(context.getString(R.string.table) + " " + listTables.get(position).getIndex());
-        holder.table.setImageResource(listTables.get(position).getEmtyChair() == 0 ? R.drawable.full_table : R.drawable.emty_table);
+        holder.table.setImageResource(listTables.get(position).getEmtyChair() == 0 ? R.drawable.full_table_150 : R.drawable.empty_table_150);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
