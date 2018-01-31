@@ -1,16 +1,24 @@
 package com.codedao.menuonline.Guest;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.Toast;
 
 import com.codedao.menuonline.Adapter.RecyclerviewTableAdapter;
 import com.codedao.menuonline.Interface.RecyclerviewTableItemClick;
 import com.codedao.menuonline.Model.Table;
 import com.codedao.menuonline.R;
+import com.joaquimley.faboptions.FabOptions;
 import com.shashank.sony.fancygifdialoglib.FancyGifDialog;
 import com.shashank.sony.fancygifdialoglib.FancyGifDialogListener;
 
@@ -21,6 +29,7 @@ public class MainScreenGuest extends AppCompatActivity implements RecyclerviewTa
     RecyclerView rcvTable;
     ArrayList<Table> listTables;
     RecyclerviewTableAdapter adapter;
+    FabOptions fabOptions;
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -41,14 +50,47 @@ public class MainScreenGuest extends AppCompatActivity implements RecyclerviewTa
         getSupportActionBar().hide();
         initView();
         dummyData();
+        initFab();
+        fabOptions.animate();
+    }
 
+
+
+    private void initFab() {
+
+        rcvTable.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy > 0) {
+                    if (fabOptions.isShown()) {
+                        fabOptions.animate().translationY(fabOptions.getHeight() + 16).setInterpolator(new AccelerateInterpolator(2)).start();
+                    }
+                } else {
+//                        fabOptions.setTranslationY(fabOptions.getHeight() + 16);
+                    fabOptions.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
+
+                }
+            }
+        });
+        fabOptions.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switch (view.getId()){
+                    case R.id.qr:
+                        startActivity(new Intent(MainScreenGuest.this,QRCODE.class));
+                    case R.id.mess:
+                        Toast.makeText(MainScreenGuest.this, "mess", Toast.LENGTH_SHORT).show();break;
+                }
+            }
+        });
     }
 
     private void dummyData() {
         listTables = new ArrayList<>();
-        if (getApplication().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+        if (getApplication().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             rcvTable.setLayoutManager(new GridLayoutManager(this, 3));
-        }else{
+        } else {
             rcvTable.setLayoutManager(new GridLayoutManager(this, 6));
         }
 
@@ -64,6 +106,7 @@ public class MainScreenGuest extends AppCompatActivity implements RecyclerviewTa
     }
 
     private void initView() {
+        fabOptions = findViewById(R.id.fab_options);
         rcvTable = findViewById(R.id.rcvTable);
     }
 

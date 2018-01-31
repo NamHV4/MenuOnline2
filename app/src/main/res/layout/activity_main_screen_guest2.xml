@@ -11,5 +11,17 @@
         android:id="@+id/rcvTable"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="20dp" />
+        android:layout_marginBottom="30dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="10dp" />
+
+    <com.joaquimley.faboptions.FabOptions
+        app:button_menu="@menu/menu_fab"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/fab_options"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom" />
+
 </RelativeLayout>
