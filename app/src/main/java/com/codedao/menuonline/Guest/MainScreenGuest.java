@@ -1,5 +1,6 @@
 package com.codedao.menuonline.Guest;
 
+import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -22,6 +23,18 @@ public class MainScreenGuest extends AppCompatActivity implements RecyclerviewTa
     RecyclerviewTableAdapter adapter;
 
     @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            rcvTable.setLayoutManager(new GridLayoutManager(this, 6));
+            adapter.notifyDataSetChanged();
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            rcvTable.setLayoutManager(new GridLayoutManager(this, 3));
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen_guest2);
@@ -33,7 +46,12 @@ public class MainScreenGuest extends AppCompatActivity implements RecyclerviewTa
 
     private void dummyData() {
         listTables = new ArrayList<>();
-        rcvTable.setLayoutManager(new GridLayoutManager(this, 3));
+        if (getApplication().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            rcvTable.setLayoutManager(new GridLayoutManager(this, 3));
+        }else{
+            rcvTable.setLayoutManager(new GridLayoutManager(this, 6));
+        }
+
         for (int i = 0; i < 15; i++) {
             int a = randomMaxChair();
             listTables.add(new Table(i + 1, randomEmptyChair(a), a));

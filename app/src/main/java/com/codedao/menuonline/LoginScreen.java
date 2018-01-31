@@ -72,9 +72,16 @@ public class LoginScreen extends AppCompatActivity {
             }
         });
         btnGuest.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(LoginScreen.this,MainScreenGuest.class));
+                Explode explode = new Explode();
+                explode.setDuration(500);
+
+                getWindow().setExitTransition(explode);
+                getWindow().setEnterTransition(explode);
+                ActivityOptionsCompat oc3=ActivityOptionsCompat.makeSceneTransitionAnimation(LoginScreen.this);
+                startActivity(new Intent(LoginScreen.this,MainScreenGuest.class),oc3.toBundle());
             }
         });
     }
