@@ -1,27 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="horizontal"
     tools:context="com.codedao.menuonline.Host.MainScreenHost">
 
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <lecho.lib.hellocharts.view.LineChartView
+        <com.github.mikephil.charting.charts.BarChart
             android:id="@+id/chart"
-            android:layout_width="400dp"
+            android:layout_width="0dp"
+            android:layout_weight="2"
             android:layout_height="match_parent"
             />
 
         <android.support.v7.widget.RecyclerView
+            android:layout_weight="1"
             android:id="@+id/rcvBlock"
-            android:layout_width="500dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent" />
 
-    </LinearLayout>
-</ScrollView>
+
+</LinearLayout>

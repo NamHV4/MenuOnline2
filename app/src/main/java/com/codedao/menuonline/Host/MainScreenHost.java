@@ -5,32 +5,35 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.transition.Explode;
-import android.widget.Toast;
+import android.view.View;
 
 import com.codedao.menuonline.Adapter.RecyclerviewBlockAdapter;
 import com.codedao.menuonline.Interface.RecyclerviewBlockItemClick;
 import com.codedao.menuonline.Model.Block;
 import com.codedao.menuonline.R;
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.shashank.sony.fancygifdialoglib.FancyGifDialog;
 import com.shashank.sony.fancygifdialoglib.FancyGifDialogListener;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-import lecho.lib.hellocharts.model.PointValue;
-import lecho.lib.hellocharts.view.Chart;
-import lecho.lib.hellocharts.view.ColumnChartView;
 
 public class MainScreenHost extends AppCompatActivity implements RecyclerviewBlockItemClick {
-    Chart chart;
+
     ArrayList<Block> listBlock = new ArrayList<>();
     RecyclerView rcvBlock;
     RecyclerviewBlockAdapter adapter;
     RecyclerView.LayoutManager layoutManager;
+    BarChart chart;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -40,7 +43,7 @@ public class MainScreenHost extends AppCompatActivity implements RecyclerviewBlo
         getTransformEffect();
         getSupportActionBar().hide();
         initView();
-//        dummyDataLinechart();
+        initChart();
         for (int i = 0; i < 15; i++) {
             Random r = new Random();
             listBlock.add(new Block(r.nextInt(1000), "content " + i));
@@ -57,19 +60,36 @@ public class MainScreenHost extends AppCompatActivity implements RecyclerviewBlo
         rcvBlock.setAdapter(adapter);
     }
 
-    private void dummyDataLinechart() {
-        ArrayList<PointValue> listValues = new ArrayList<>();
-        for (int i = 0; i < 15; i++) {
-            Random r = new Random();
-            listValues.add(new PointValue(r.nextInt(10), r.nextInt(10)));
-        }
-        chart = new ColumnChartView(this);
+    private void initChart() {
 
+        ArrayList<BarEntry> listBar = new ArrayList<>();
+        listBar.add(new BarEntry(2f, 0, "Jan"));
+        listBar.add(new BarEntry(4f, 1, "Feb"));
+        listBar.add(new BarEntry(6f, 2, "Mar"));
+        listBar.add(new BarEntry(5f, 3, "Apr"));
+        listBar.add(new BarEntry(9f, 4, "May"));
+        listBar.add(new BarEntry(11f, 5, "Jun"));
+        listBar.add(new BarEntry(10f, 6, "Jul"));
+        listBar.add(new BarEntry(2f, 7, "Aug"));
+        listBar.add(new BarEntry(1f, 8, "Sep"));
+
+        BarDataSet barDataSet = new BarDataSet(listBar, "Example");
+
+        chart = new BarChart(this);
+
+        BarData barData = new BarData(barDataSet);
+
+        barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+
+        chart.setData(barData);
+        chart.animateY(5000);
+        chart.invalidate();
     }
+
 
     private void initView() {
         rcvBlock = findViewById(R.id.rcvBlock);
-//        chart=findViewById(R.id.chart);
+        chart = findViewById(R.id.chart);
     }
 
     @Override
