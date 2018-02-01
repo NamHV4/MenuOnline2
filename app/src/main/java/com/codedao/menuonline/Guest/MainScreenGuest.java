@@ -55,7 +55,6 @@ public class MainScreenGuest extends AppCompatActivity implements RecyclerviewTa
     }
 
 
-
     private void initFab() {
 
         rcvTable.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -76,11 +75,13 @@ public class MainScreenGuest extends AppCompatActivity implements RecyclerviewTa
         fabOptions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                switch (view.getId()){
+                switch (view.getId()) {
                     case R.id.qr:
-                        startActivity(new Intent(MainScreenGuest.this,QRCODE.class));
+                        startActivity(new Intent(MainScreenGuest.this, QRCODE.class));
+                        break;
                     case R.id.mess:
-                        Toast.makeText(MainScreenGuest.this, "mess", Toast.LENGTH_SHORT).show();break;
+                        Toast.makeText(MainScreenGuest.this, "mess", Toast.LENGTH_SHORT).show();
+                        break;
                 }
             }
         });

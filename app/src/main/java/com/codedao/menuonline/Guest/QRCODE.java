@@ -36,6 +36,7 @@ public class QRCODE extends AppCompatActivity implements QRCodeReaderView.OnQRCo
 
     @Override
     public void onQRCodeRead(String text, PointF[] points) {
+
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
     }
 
