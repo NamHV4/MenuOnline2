@@ -1,9 +1,11 @@
 package com.codedao.menuonline.Host;
 
+import android.content.res.Configuration;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.transition.Explode;
@@ -24,11 +26,11 @@ import lecho.lib.hellocharts.view.Chart;
 import lecho.lib.hellocharts.view.ColumnChartView;
 
 public class MainScreenHost extends AppCompatActivity implements RecyclerviewBlockItemClick {
-    FancyGifDialog.Builder fancyGifDialog;
     Chart chart;
     ArrayList<Block> listBlock = new ArrayList<>();
     RecyclerView rcvBlock;
     RecyclerviewBlockAdapter adapter;
+    RecyclerView.LayoutManager layoutManager;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -43,7 +45,13 @@ public class MainScreenHost extends AppCompatActivity implements RecyclerviewBlo
             Random r = new Random();
             listBlock.add(new Block(r.nextInt(1000), "content " + i));
         }
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        if (getApplication().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+
+        } else {
+            layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+
+        }
         rcvBlock.setLayoutManager(layoutManager);
         adapter = new RecyclerviewBlockAdapter(listBlock, this, this);
         rcvBlock.setAdapter(adapter);
@@ -62,6 +70,18 @@ public class MainScreenHost extends AppCompatActivity implements RecyclerviewBlo
     private void initView() {
         rcvBlock = findViewById(R.id.rcvBlock);
 //        chart=findViewById(R.id.chart);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+            adapter.notifyDataSetChanged();
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+            adapter.notifyDataSetChanged();
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
