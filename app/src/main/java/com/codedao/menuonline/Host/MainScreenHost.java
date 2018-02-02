@@ -8,8 +8,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.transition.Explode;
-import android.view.View;
-
 import com.codedao.menuonline.Adapter.RecyclerviewBlockAdapter;
 import com.codedao.menuonline.Interface.RecyclerviewBlockItemClick;
 import com.codedao.menuonline.Model.Block;
@@ -18,11 +16,9 @@ import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.shashank.sony.fancygifdialoglib.FancyGifDialog;
 import com.shashank.sony.fancygifdialoglib.FancyGifDialogListener;
-
 import java.util.ArrayList;
 import java.util.Random;
 
