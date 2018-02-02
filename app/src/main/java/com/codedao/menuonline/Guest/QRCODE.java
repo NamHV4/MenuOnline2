@@ -67,6 +67,7 @@ public class QRCODE extends AppCompatActivity implements QRCodeReaderView.OnQRCo
         if (result.getVisibility() == View.VISIBLE) {
             result.setVisibility(View.GONE);
             qrCodeReaderView.startCamera();
+            pointsOverlayView.setPoints(null);
         } else {
             super.onBackPressed();
         }
