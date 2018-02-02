@@ -18,6 +18,7 @@ public class QRCODE extends AppCompatActivity implements QRCodeReaderView.OnQRCo
     TextView result;
     ImageButton btnRevert;
     boolean flag = true;
+    PointsOverlayView pointsOverlayView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,10 +27,7 @@ public class QRCODE extends AppCompatActivity implements QRCodeReaderView.OnQRCo
         getSupportActionBar().hide();
         initView();
         qrCodeReaderView.setOnQRCodeReadListener(this);
-
-        // Use this function to change the autofocus interval (default is 5 secs)
         qrCodeReaderView.setAutofocusInterval(2000L);
-
         cbFlashlight.setOnClickListener(this);
         btnRevert.setOnClickListener(this);
     }
@@ -39,11 +37,12 @@ public class QRCODE extends AppCompatActivity implements QRCodeReaderView.OnQRCo
         cbFlashlight = findViewById(R.id.cbFlashlight);
         btnRevert = findViewById(R.id.btnRevert);
         result = findViewById(R.id.result);
+        pointsOverlayView=findViewById(R.id.overlay);
     }
 
     @Override
     public void onQRCodeRead(String text, PointF[] points) {
-
+        pointsOverlayView.setPoints(points);
         if (result.getVisibility() == View.GONE) {
             result.setVisibility(View.VISIBLE);
             result.setText(text);

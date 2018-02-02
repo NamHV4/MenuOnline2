@@ -11,6 +11,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <com.codedao.menuonline.Guest.PointsOverlayView
+        android:id="@+id/overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
     <ImageButton
         android:id="@+id/btnRevert"
         android:layout_width="wrap_content"
@@ -23,7 +28,6 @@
 
     <TextView
         android:id="@+id/result"
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -31,7 +35,8 @@
         android:background="#caffffff"
         android:paddingBottom="20dp"
         android:paddingTop="20dp"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        android:visibility="gone" />
 
     <LinearLayout
         android:layout_width="match_parent"
