@@ -80,14 +80,14 @@ public class QRCODE extends AppCompatActivity implements QRCodeReaderView.OnQRCo
             case R.id.cbFlashlight:
                 qrCodeReaderView.setTorchEnabled(cbFlashlight.isChecked());
                 break;
-            case R.id.btnRevert:
-                if (flag) {
-                    qrCodeReaderView.setFrontCamera();
-                    flag = false;
-                } else {
-                    qrCodeReaderView.setBackCamera();
-                    flag = true;
-                }
+//            case R.id.btnRevert:
+//                if (flag) {
+//                    qrCodeReaderView.setFrontCamera();
+//                    flag = false;
+//                } else {
+//                    qrCodeReaderView.setBackCamera();
+//                    flag = true;
+//                }
         }
     }
 }
