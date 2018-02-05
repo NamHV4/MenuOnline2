@@ -15,10 +15,15 @@ import com.codedao.menuonline.Interface.RecyclerviewBlockItemClick;
 import com.codedao.menuonline.Model.Block;
 import com.codedao.menuonline.R;
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.shashank.sony.fancygifdialoglib.FancyGifDialog;
 import com.shashank.sony.fancygifdialoglib.FancyGifDialogListener;
@@ -34,6 +39,7 @@ public class MainScreenHost extends AppCompatActivity implements RecyclerviewBlo
     RecyclerviewBlockAdapter adapter;
     RecyclerView.LayoutManager layoutManager;
     BarChart chart;
+    PieChart pie;
 
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -44,7 +50,35 @@ public class MainScreenHost extends AppCompatActivity implements RecyclerviewBlo
         getTransformEffect();
         getSupportActionBar().hide();
         initView();
-        initChart();
+        initBarChart();
+        initPieChart();
+        initRcv();
+
+    }
+
+    private void initPieChart() {
+        pie.setRotationEnabled(true);
+        ArrayList<PieEntry> listEntries = new ArrayList<>();
+        listEntries.add(new PieEntry(0f, 15f));
+        listEntries.add(new PieEntry(1f, 35f));
+        listEntries.add(new PieEntry(2f, 22f));
+        listEntries.add(new PieEntry(3f, 10f));
+        listEntries.add(new PieEntry(4f, 20f));
+        listEntries.add(new PieEntry(5f, 30f));
+
+        PieDataSet pieDataSet=new PieDataSet(listEntries,"");
+        pieDataSet.setColors(ColorTemplate.JOYFUL_COLORS);
+        pie.setDrawHoleEnabled(true);
+        pie.setTransparentCircleRadius(30f);
+        pie.setHoleRadius(30f);
+        PieData pieData=new PieData(pieDataSet);
+        pie.setData(pieData);
+        pie.invalidate();
+
+
+    }
+
+    private void initRcv() {
         for (int i = 0; i < 15; i++) {
             Random r = new Random();
             listBlock.add(new Block(r.nextInt(1000), "content " + i));
@@ -61,7 +95,7 @@ public class MainScreenHost extends AppCompatActivity implements RecyclerviewBlo
         rcvBlock.setAdapter(adapter);
     }
 
-    private void initChart() {
+    private void initBarChart() {
 
         ArrayList<BarEntry> listBar = new ArrayList<>();
         listBar.add(new BarEntry(0f, 10f));
@@ -88,6 +122,7 @@ public class MainScreenHost extends AppCompatActivity implements RecyclerviewBlo
     private void initView() {
         rcvBlock = findViewById(R.id.rcvBlock);
         chart = findViewById(R.id.chart);
+        pie = findViewById(R.id.pie);
 
     }
 

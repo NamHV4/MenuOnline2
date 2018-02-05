@@ -16,12 +16,19 @@
 
         <com.github.mikephil.charting.charts.BarChart
             android:id="@+id/chart"
-            android:background="#FFF"
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="10dp"
+            android:background="#FFF" />
 
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/pie"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="10dp"
+            android:background="#FFF" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rcvBlock"
