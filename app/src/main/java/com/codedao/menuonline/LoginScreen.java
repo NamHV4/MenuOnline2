@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.codedao.menuonline.Guest.MainScreenGuest;
+import com.codedao.menuonline.Host.IndexScreenHost;
 import com.codedao.menuonline.Host.MainScreenHost;
 
 public class LoginScreen extends AppCompatActivity {
@@ -81,7 +82,7 @@ public class LoginScreen extends AppCompatActivity {
                 getWindow().setExitTransition(explode);
                 getWindow().setEnterTransition(explode);
                 ActivityOptionsCompat oc3=ActivityOptionsCompat.makeSceneTransitionAnimation(LoginScreen.this);
-                startActivity(new Intent(LoginScreen.this,MainScreenGuest.class),oc3.toBundle());
+                startActivity(new Intent(LoginScreen.this,IndexScreenHost.class),oc3.toBundle());
             }
         });
     }
