@@ -69,9 +69,12 @@ public class MainScreenHost extends AppCompatActivity implements RecyclerviewBlo
         PieDataSet pieDataSet=new PieDataSet(listEntries,"");
         pieDataSet.setColors(ColorTemplate.JOYFUL_COLORS);
         pie.setDrawHoleEnabled(true);
-        pie.setTransparentCircleRadius(30f);
-        pie.setHoleRadius(30f);
+        pie.setTransparentCircleRadius(40f);
+        pie.setHoleRadius(35f);
+//        pie.setDrawSlicesUnderHole(false);
+        pieDataSet.setSliceSpace(3f);
         PieData pieData=new PieData(pieDataSet);
+        pie.setUsePercentValues(true);
         pie.setData(pieData);
         pie.invalidate();
 
