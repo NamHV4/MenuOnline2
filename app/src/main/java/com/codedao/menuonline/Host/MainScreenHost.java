@@ -141,6 +141,8 @@ public class MainScreenHost extends AppCompatActivity implements RecyclerviewBlo
 //                return null;
 //            }
 //        });
+//        mPieChart.animateX(5000);
+        mPieChart.animateY(5000);
         mPieChart.invalidate();
 
 
