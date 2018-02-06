@@ -19,28 +19,28 @@ import java.util.ArrayList;
  */
 
 public class RecyclerviewTableAdapter extends RecyclerView.Adapter<RecyclerviewTableAdapter.ViewHolder> {
-    ArrayList<Table> listTables;
-    LayoutInflater layoutInflater;
-    Context context;
+    ArrayList<Table> mListTables;
+    LayoutInflater mLayoutInflater;
+    Context mContext;
     RecyclerviewTableItemClick recyclerviewTableItemClick;
 
     public RecyclerviewTableAdapter(ArrayList<Table> listTables, Context context, RecyclerviewTableItemClick recyclerviewTableItemClick) {
-        this.listTables = listTables;
-        this.context = context;
-        layoutInflater = LayoutInflater.from(context);
+        this.mListTables = listTables;
+        this.mContext = context;
+        mLayoutInflater = LayoutInflater.from(context);
         this.recyclerviewTableItemClick = recyclerviewTableItemClick;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = layoutInflater.inflate(R.layout.table_item, parent, false);
+        View view = mLayoutInflater.inflate(R.layout.table_item, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        holder.index.setText(context.getString(R.string.table) + " " + listTables.get(position).getIndex());
-        holder.table.setImageResource(listTables.get(position).getEmtyChair() == 0 ? R.drawable.full_table_150 : R.drawable.empty_table_150);
+        holder.index.setText(mContext.getString(R.string.table) + " " + mListTables.get(position).getIndex());
+        holder.table.setImageResource(mListTables.get(position).getEmtyChair() == 0 ? R.drawable.full_table_150 : R.drawable.empty_table_150);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -51,7 +51,7 @@ public class RecyclerviewTableAdapter extends RecyclerView.Adapter<RecyclerviewT
 
     @Override
     public int getItemCount() {
-        return listTables.size();
+        return mListTables.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

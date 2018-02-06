@@ -13,8 +13,8 @@ import android.view.View;
  */
 
 public class PointsOverlayView extends View {
-    PointF[] points;
-    private Paint paint;
+    PointF[] mPoints;
+    private Paint mPaint;
 
     public PointsOverlayView(Context context) {
         super(context);
@@ -32,21 +32,21 @@ public class PointsOverlayView extends View {
     }
 
     private void init() {
-        paint = new Paint();
-        paint.setColor(Color.BLUE);
-        paint.setStyle(Paint.Style.FILL);
+        mPaint = new Paint();
+        mPaint.setColor(Color.BLUE);
+        mPaint.setStyle(Paint.Style.FILL);
     }
 
-    public void setPoints(PointF[] points) {
-        this.points = points;
+    public void setmPoints(PointF[] mPoints) {
+        this.mPoints = mPoints;
         invalidate();
     }
 
     @Override public void draw(Canvas canvas) {
         super.draw(canvas);
-        if (points != null) {
-            for (PointF pointF : points) {
-                canvas.drawCircle(pointF.x, pointF.y, 10, paint);
+        if (mPoints != null) {
+            for (PointF pointF : mPoints) {
+                canvas.drawCircle(pointF.x, pointF.y, 10, mPaint);
             }
         }
     }

@@ -15,8 +15,8 @@ import android.view.ViewAnimationUtils;
 import android.view.animation.AccelerateInterpolator;
 
 public class RegisterActivity extends AppCompatActivity {
-    private FloatingActionButton fab;
-    private CardView cvAdd;
+    private FloatingActionButton mFab;
+    private CardView mCvAdd;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -26,7 +26,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         ShowEnterAnimation();
         initView();
-        fab.setOnClickListener(new View.OnClickListener() {
+        mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 animateRevealClose();
@@ -35,8 +35,8 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        fab = findViewById(R.id.fab);
-        cvAdd = findViewById(R.id.cv_add);
+        mFab = findViewById(R.id.fab);
+        mCvAdd = findViewById(R.id.cv_add);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -47,7 +47,7 @@ public class RegisterActivity extends AppCompatActivity {
         transition.addListener(new Transition.TransitionListener() {
             @Override
             public void onTransitionStart(Transition transition) {
-                cvAdd.setVisibility(View.GONE);
+                mCvAdd.setVisibility(View.GONE);
             }
 
             @Override
@@ -77,7 +77,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void animateRevealShow() {
-        Animator mAnimator = ViewAnimationUtils.createCircularReveal(cvAdd, cvAdd.getWidth()/2,0, fab.getWidth() / 2, cvAdd.getHeight());
+        Animator mAnimator = ViewAnimationUtils.createCircularReveal(mCvAdd, mCvAdd.getWidth() / 2, 0, mFab.getWidth() / 2, mCvAdd.getHeight());
         mAnimator.setDuration(500);
         mAnimator.setInterpolator(new AccelerateInterpolator());
         mAnimator.addListener(new AnimatorListenerAdapter() {
@@ -88,7 +88,7 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void onAnimationStart(Animator animation) {
-                cvAdd.setVisibility(View.VISIBLE);
+                mCvAdd.setVisibility(View.VISIBLE);
                 super.onAnimationStart(animation);
             }
         });
@@ -97,15 +97,15 @@ public class RegisterActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void animateRevealClose() {
-        Animator mAnimator = ViewAnimationUtils.createCircularReveal(cvAdd,cvAdd.getWidth()/2,0, cvAdd.getHeight(), fab.getWidth() / 2);
+        Animator mAnimator = ViewAnimationUtils.createCircularReveal(mCvAdd, mCvAdd.getWidth() / 2, 0, mCvAdd.getHeight(), mFab.getWidth() / 2);
         mAnimator.setDuration(500);
         mAnimator.setInterpolator(new AccelerateInterpolator());
         mAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
-                cvAdd.setVisibility(View.INVISIBLE);
+                mCvAdd.setVisibility(View.INVISIBLE);
                 super.onAnimationEnd(animation);
-                fab.setImageResource(R.drawable.plus);
+                mFab.setImageResource(R.drawable.plus);
                 RegisterActivity.super.onBackPressed();
             }
 
@@ -116,6 +116,7 @@ public class RegisterActivity extends AppCompatActivity {
         });
         mAnimator.start();
     }
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onBackPressed() {

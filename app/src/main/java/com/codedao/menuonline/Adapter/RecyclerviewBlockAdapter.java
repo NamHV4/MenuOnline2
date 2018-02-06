@@ -1,7 +1,6 @@
 package com.codedao.menuonline.Adapter;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,49 +18,49 @@ import java.util.ArrayList;
  */
 
 public class RecyclerviewBlockAdapter extends RecyclerView.Adapter<RecyclerviewBlockAdapter.Viewholder> {
-    ArrayList<Block> listBlock;
-    LayoutInflater layoutInflater;
-    Context context;
+    ArrayList<Block> mListBlocks;
+    LayoutInflater mLayoutInflater;
+    Context mContext;
     RecyclerviewBlockItemClick recyclerviewBlockItemClick;
 
     public RecyclerviewBlockAdapter(ArrayList<Block> listBlock, Context context, RecyclerviewBlockItemClick recyclerviewBlockItemClick) {
-        this.listBlock = listBlock;
-        this.context = context;
-        layoutInflater = LayoutInflater.from(context);
+        this.mListBlocks = listBlock;
+        this.mContext = context;
+        mLayoutInflater = LayoutInflater.from(context);
         this.recyclerviewBlockItemClick = recyclerviewBlockItemClick;
     }
 
     @Override
     public RecyclerviewBlockAdapter.Viewholder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = layoutInflater.inflate(R.layout.block_item, parent, false);
+        View view = mLayoutInflater.inflate(R.layout.block_item, parent, false);
         return new Viewholder(view);
     }
 
     @Override
     public void onBindViewHolder(RecyclerviewBlockAdapter.Viewholder holder, final int position) {
-        holder.blockCounter.setText(listBlock.get(position).getCounter() + "");
-        holder.blockContent.setText(listBlock.get(position).getContent());
+        holder.blockCounter.setText(mListBlocks.get(position).getCounter() + "");
+        holder.blockContent.setText(mListBlocks.get(position).getContent());
         switch (position % 7) {
             case 0:
-                holder.itemView.setBackgroundColor(context.getResources().getColor(R.color.tear));
+                holder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.tear));
                 break;
             case 1:
-                holder.itemView.setBackgroundColor(context.getResources().getColor(R.color.cyan));
+                holder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.cyan));
                 break;
             case 2:
-                holder.itemView.setBackgroundColor(context.getResources().getColor(R.color.yellow));
+                holder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.yellow));
                 break;
             case 3:
-                holder.itemView.setBackgroundColor(context.getResources().getColor(R.color.deepOrange));
+                holder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.deepOrange));
                 break;
             case 4:
-                holder.itemView.setBackgroundColor(context.getResources().getColor(R.color.indigo));
+                holder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.indigo));
                 break;
             case 5:
-                holder.itemView.setBackgroundColor(context.getResources().getColor(R.color.red));
+                holder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.red));
                 break;
             case 6:
-                holder.itemView.setBackgroundColor(context.getResources().getColor(R.color.purple));
+                holder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.purple));
                 break;
 
         }
@@ -76,7 +75,7 @@ public class RecyclerviewBlockAdapter extends RecyclerView.Adapter<RecyclerviewB
 
     @Override
     public int getItemCount() {
-        return listBlock.size();
+        return mListBlocks.size();
     }
 
     public class Viewholder extends RecyclerView.ViewHolder {

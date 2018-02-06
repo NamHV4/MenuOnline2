@@ -15,15 +15,14 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.codedao.menuonline.Guest.MainScreenGuest;
-import com.codedao.menuonline.Host.IndexScreenHost;
 import com.codedao.menuonline.Host.MainScreenHost;
 
 public class LoginScreen extends AppCompatActivity {
     private EditText etUsername;
     private EditText etPassword;
-    private Button btGo,btnGuest;
+    private Button mBtnGo, mBtnGuest;
     private CardView cv;
-    private FloatingActionButton fab;
+    private FloatingActionButton mFab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,14 +39,14 @@ public class LoginScreen extends AppCompatActivity {
 
         etUsername = findViewById(R.id.et_username);
         etPassword = findViewById(R.id.et_password);
-        btGo = findViewById(R.id.bt_go);
+        mBtnGo = findViewById(R.id.bt_go);
         cv = findViewById(R.id.cv);
-        fab = findViewById(R.id.fab);
-        btnGuest=findViewById(R.id.btnGuest);
+        mFab = findViewById(R.id.fab);
+        mBtnGuest =findViewById(R.id.btnGuest);
     }
 
     private void setListener() {
-        btGo.setOnClickListener(new View.OnClickListener() {
+        mBtnGo.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onClick(View view) {
@@ -62,17 +61,17 @@ public class LoginScreen extends AppCompatActivity {
                 startActivity(i2, oc2.toBundle());
             }
         });
-        fab.setOnClickListener(new View.OnClickListener() {
+        mFab.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onClick(View view) {
                 getWindow().setExitTransition(null);
                 getWindow().setEnterTransition(null);
-                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(LoginScreen.this, fab, fab.getTransitionName());
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(LoginScreen.this, mFab, mFab.getTransitionName());
                 startActivity(new Intent(LoginScreen.this, RegisterActivity.class), options.toBundle());
             }
         });
-        btnGuest.setOnClickListener(new View.OnClickListener() {
+        mBtnGuest.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onClick(View view) {
@@ -82,7 +81,7 @@ public class LoginScreen extends AppCompatActivity {
                 getWindow().setExitTransition(explode);
                 getWindow().setEnterTransition(explode);
                 ActivityOptionsCompat oc3=ActivityOptionsCompat.makeSceneTransitionAnimation(LoginScreen.this);
-                startActivity(new Intent(LoginScreen.this,IndexScreenHost.class),oc3.toBundle());
+                startActivity(new Intent(LoginScreen.this,MainScreenGuest.class),oc3.toBundle());
             }
         });
     }

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.codedao.menuonline.Guest.QRCODE">
+    tools:context="com.codedao.menuonline.Guest.QRCode">
 
     <com.dlazaro66.qrcodereaderview.QRCodeReaderView
         android:id="@+id/qrdecoderview"

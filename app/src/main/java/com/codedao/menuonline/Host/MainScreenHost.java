@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.transition.Explode;
-import android.widget.FrameLayout;
 
 import com.codedao.menuonline.Adapter.RecyclerviewBlockAdapter;
 import com.codedao.menuonline.Interface.RecyclerviewBlockItemClick;
@@ -16,11 +15,9 @@ import com.codedao.menuonline.Model.Block;
 import com.codedao.menuonline.R;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
@@ -34,12 +31,12 @@ import java.util.Random;
 
 public class MainScreenHost extends AppCompatActivity implements RecyclerviewBlockItemClick {
 
-    ArrayList<Block> listBlock = new ArrayList<>();
-    RecyclerView rcvBlock;
-    RecyclerviewBlockAdapter adapter;
-    RecyclerView.LayoutManager layoutManager;
-    BarChart chart;
-    PieChart pie;
+    ArrayList<Block> mListBlocks = new ArrayList<>();
+    RecyclerView mRcvBlock;
+    RecyclerviewBlockAdapter mAdapter;
+    RecyclerView.LayoutManager mLayoutManager;
+    BarChart mBarChart;
+    PieChart mPieChart;
 
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -57,7 +54,7 @@ public class MainScreenHost extends AppCompatActivity implements RecyclerviewBlo
     }
 
     private void initPieChart() {
-        pie.setRotationEnabled(true);
+        mPieChart.setRotationEnabled(true);
         ArrayList<PieEntry> listEntries = new ArrayList<>();
         listEntries.add(new PieEntry(0f, 15f));
         listEntries.add(new PieEntry(1f, 35f));
@@ -66,17 +63,17 @@ public class MainScreenHost extends AppCompatActivity implements RecyclerviewBlo
         listEntries.add(new PieEntry(4f, 20f));
         listEntries.add(new PieEntry(5f, 30f));
 
-        PieDataSet pieDataSet=new PieDataSet(listEntries,"");
+        PieDataSet pieDataSet = new PieDataSet(listEntries, "");
         pieDataSet.setColors(ColorTemplate.JOYFUL_COLORS);
-        pie.setDrawHoleEnabled(true);
-        pie.setTransparentCircleRadius(40f);
-        pie.setHoleRadius(35f);
-//        pie.setDrawSlicesUnderHole(false);
+        mPieChart.setDrawHoleEnabled(true);
+        mPieChart.setTransparentCircleRadius(40f);
+        mPieChart.setHoleRadius(35f);
+//        mPieChart.setDrawSlicesUnderHole(false);
         pieDataSet.setSliceSpace(3f);
-        PieData pieData=new PieData(pieDataSet);
-        pie.setUsePercentValues(true);
-        pie.setData(pieData);
-        pie.invalidate();
+        PieData pieData = new PieData(pieDataSet);
+        mPieChart.setUsePercentValues(true);
+        mPieChart.setData(pieData);
+        mPieChart.invalidate();
 
 
     }
@@ -84,48 +81,48 @@ public class MainScreenHost extends AppCompatActivity implements RecyclerviewBlo
     private void initRcv() {
         for (int i = 0; i < 15; i++) {
             Random r = new Random();
-            listBlock.add(new Block(r.nextInt(1000), "content " + i));
+            mListBlocks.add(new Block(r.nextInt(1000), "content " + i));
         }
         if (getApplication().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+            mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
 
         } else {
-            layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+            mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 
         }
-        rcvBlock.setLayoutManager(layoutManager);
-        adapter = new RecyclerviewBlockAdapter(listBlock, this, this);
-        rcvBlock.setAdapter(adapter);
+        mRcvBlock.setLayoutManager(mLayoutManager);
+        mAdapter = new RecyclerviewBlockAdapter(mListBlocks, this, this);
+        mRcvBlock.setAdapter(mAdapter);
     }
 
     private void initBarChart() {
 
         ArrayList<BarEntry> listBar = new ArrayList<>();
-        listBar.add(new BarEntry(0f, 10f));
-        listBar.add(new BarEntry(1f, 15f));
-        listBar.add(new BarEntry(2f, 11f));
-        listBar.add(new BarEntry(3f, 9f));
-        listBar.add(new BarEntry(4f, 13f));
-        listBar.add(new BarEntry(5f, 5f));
-        listBar.add(new BarEntry(6f, 7f));
-        listBar.add(new BarEntry(7f, 11f));
-        listBar.add(new BarEntry(8f, 11f));
-        listBar.add(new BarEntry(9f, 6f));
+        listBar.add(new BarEntry(0f, 10f, "Jan"));
+        listBar.add(new BarEntry(1f, 15f, "Feb"));
+        listBar.add(new BarEntry(2f, 11f, "Mar"));
+        listBar.add(new BarEntry(3f, 9f, "Apr"));
+        listBar.add(new BarEntry(4f, 13f, "May"));
+        listBar.add(new BarEntry(5f, 5f, "Jun"));
+        listBar.add(new BarEntry(6f, 7f, "Jul"));
+        listBar.add(new BarEntry(7f, 11f, "Aug"));
+        listBar.add(new BarEntry(8f, 11f, "Sep"));
+        listBar.add(new BarEntry(9f, 6f, "Oct"));
 
         BarDataSet barDataSet = new BarDataSet(listBar, "Example");
 
         BarData barData = new BarData(barDataSet);
         barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
 
-        chart.setData(barData);
-        chart.animateY(5000);
-        chart.invalidate();
+        mBarChart.setData(barData);
+        mBarChart.animateY(5000);
+        mBarChart.invalidate();
     }
 
     private void initView() {
-        rcvBlock = findViewById(R.id.rcvBlock);
-        chart = findViewById(R.id.chart);
-        pie = findViewById(R.id.pie);
+        mRcvBlock = findViewById(R.id.rcvBlock);
+        mBarChart = findViewById(R.id.chart);
+        mPieChart = findViewById(R.id.pie);
 
     }
 
@@ -133,11 +130,11 @@ public class MainScreenHost extends AppCompatActivity implements RecyclerviewBlo
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-            adapter.notifyDataSetChanged();
+            mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+            mAdapter.notifyDataSetChanged();
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-            adapter.notifyDataSetChanged();
+            mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+            mAdapter.notifyDataSetChanged();
         }
     }
 
@@ -152,8 +149,8 @@ public class MainScreenHost extends AppCompatActivity implements RecyclerviewBlo
     @Override
     public void onItemCick(int position) {
         final FancyGifDialog.Builder fancyGifDialog = new FancyGifDialog.Builder(this).setGifResource(R.drawable.mountain)
-                .setMessage(listBlock.get(position).getContent()).setNegativeBtnText("Cancel")
-                .setTitle(listBlock.get(position).getCounter() + "")
+                .setMessage(mListBlocks.get(position).getContent()).setNegativeBtnText("Cancel")
+                .setTitle(mListBlocks.get(position).getCounter() + "")
                 .OnNegativeClicked(new FancyGifDialogListener() {
                     @Override
                     public void OnClick() {
