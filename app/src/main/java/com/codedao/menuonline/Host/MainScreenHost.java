@@ -31,12 +31,12 @@ import java.util.Random;
 
 public class MainScreenHost extends AppCompatActivity implements RecyclerviewBlockItemClick {
 
-    ArrayList<Block> mListBlocks = new ArrayList<>();
-    RecyclerView mRcvBlock;
-    RecyclerviewBlockAdapter mAdapter;
-    RecyclerView.LayoutManager mLayoutManager;
-    BarChart mBarChart;
-    PieChart mPieChart;
+    private ArrayList<Block> mListBlocks = new ArrayList<>();
+    private RecyclerView mRcvBlock;
+    private RecyclerviewBlockAdapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+    private BarChart mBarChart;
+    private PieChart mPieChart;
 
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)

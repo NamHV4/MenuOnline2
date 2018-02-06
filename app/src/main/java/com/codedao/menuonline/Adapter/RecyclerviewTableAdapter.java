@@ -19,10 +19,10 @@ import java.util.ArrayList;
  */
 
 public class RecyclerviewTableAdapter extends RecyclerView.Adapter<RecyclerviewTableAdapter.ViewHolder> {
-    ArrayList<Table> mListTables;
-    LayoutInflater mLayoutInflater;
-    Context mContext;
-    RecyclerviewTableItemClick recyclerviewTableItemClick;
+    private ArrayList<Table> mListTables;
+    private LayoutInflater mLayoutInflater;
+    private Context mContext;
+    private RecyclerviewTableItemClick recyclerviewTableItemClick;
 
     public RecyclerviewTableAdapter(ArrayList<Table> listTables, Context context, RecyclerviewTableItemClick recyclerviewTableItemClick) {
         this.mListTables = listTables;

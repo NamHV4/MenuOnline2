@@ -13,7 +13,7 @@ import android.view.View;
  */
 
 public class PointsOverlayView extends View {
-    PointF[] mPoints;
+    private PointF[] mPoints;
     private Paint mPaint;
 
     public PointsOverlayView(Context context) {
@@ -42,7 +42,8 @@ public class PointsOverlayView extends View {
         invalidate();
     }
 
-    @Override public void draw(Canvas canvas) {
+    @Override
+    public void draw(Canvas canvas) {
         super.draw(canvas);
         if (mPoints != null) {
             for (PointF pointF : mPoints) {

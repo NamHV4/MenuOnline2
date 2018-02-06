@@ -12,12 +12,12 @@ import com.codedao.menuonline.R;
 import com.dlazaro66.qrcodereaderview.QRCodeReaderView;
 
 public class QRCode extends AppCompatActivity implements QRCodeReaderView.OnQRCodeReadListener, View.OnClickListener {
-    QRCodeReaderView mQRCodeView;
-    CheckBox mCBFlash;
-    TextView mTvResult;
-    ImageButton mBtnRevert;
+    private QRCodeReaderView mQRCodeView;
+    private CheckBox mCBFlash;
+    private TextView mTvResult;
+    private ImageButton mBtnRevert;
     boolean flag = true;
-    PointsOverlayView mPointsOverlayView;
+    private PointsOverlayView mPointsOverlayView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

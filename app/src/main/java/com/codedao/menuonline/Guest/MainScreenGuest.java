@@ -23,10 +23,10 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class MainScreenGuest extends AppCompatActivity implements RecyclerviewTableItemClick {
-    RecyclerView mRcvTables;
-    ArrayList<Table> mListTables;
-    RecyclerviewTableAdapter mAdapter;
-    FabOptions mFabOpt;
+    private RecyclerView mRcvTables;
+    private ArrayList<Table> mListTables;
+    private RecyclerviewTableAdapter mAdapter;
+    private FabOptions mFabOpt;
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {

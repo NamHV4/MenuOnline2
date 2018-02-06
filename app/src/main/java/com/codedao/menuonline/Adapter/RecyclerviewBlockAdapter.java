@@ -18,10 +18,10 @@ import java.util.ArrayList;
  */
 
 public class RecyclerviewBlockAdapter extends RecyclerView.Adapter<RecyclerviewBlockAdapter.Viewholder> {
-    ArrayList<Block> mListBlocks;
-    LayoutInflater mLayoutInflater;
-    Context mContext;
-    RecyclerviewBlockItemClick recyclerviewBlockItemClick;
+    private ArrayList<Block> mListBlocks;
+    private LayoutInflater mLayoutInflater;
+    private Context mContext;
+    private RecyclerviewBlockItemClick recyclerviewBlockItemClick;
 
     public RecyclerviewBlockAdapter(ArrayList<Block> listBlock, Context context, RecyclerviewBlockItemClick recyclerviewBlockItemClick) {
         this.mListBlocks = listBlock;
