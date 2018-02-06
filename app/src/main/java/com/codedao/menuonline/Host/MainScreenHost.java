@@ -2,29 +2,41 @@ package com.codedao.menuonline.Host;
 
 import android.content.res.Configuration;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.transition.Explode;
+import android.util.Log;
 
 import com.codedao.menuonline.Adapter.RecyclerviewBlockAdapter;
 import com.codedao.menuonline.Interface.RecyclerviewBlockItemClick;
 import com.codedao.menuonline.Model.Block;
+import com.codedao.menuonline.Model.DailyData;
 import com.codedao.menuonline.R;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.shashank.sony.fancygifdialoglib.FancyGifDialog;
 import com.shashank.sony.fancygifdialoglib.FancyGifDialogListener;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -37,7 +49,10 @@ public class MainScreenHost extends AppCompatActivity implements RecyclerviewBlo
     private RecyclerView.LayoutManager mLayoutManager;
     private BarChart mBarChart;
     private PieChart mPieChart;
-
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private static final String DAILY_DATA = "dailyData";
+    private static final String CUSTOMER = "customer";
+    private ArrayList<BarEntry> mListBars;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -97,26 +112,49 @@ public class MainScreenHost extends AppCompatActivity implements RecyclerviewBlo
 
     private void initBarChart() {
 
-        ArrayList<BarEntry> listBar = new ArrayList<>();
-        listBar.add(new BarEntry(0f, 10f, "Jan"));
-        listBar.add(new BarEntry(1f, 15f, "Feb"));
-        listBar.add(new BarEntry(2f, 11f, "Mar"));
-        listBar.add(new BarEntry(3f, 9f, "Apr"));
-        listBar.add(new BarEntry(4f, 13f, "May"));
-        listBar.add(new BarEntry(5f, 5f, "Jun"));
-        listBar.add(new BarEntry(6f, 7f, "Jul"));
-        listBar.add(new BarEntry(7f, 11f, "Aug"));
-        listBar.add(new BarEntry(8f, 11f, "Sep"));
-        listBar.add(new BarEntry(9f, 6f, "Oct"));
+        db.collection(DAILY_DATA).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                mListBars = new ArrayList<>();
+                final ArrayList<DailyData> listDailyDatas=new ArrayList<>();
+                if (task.isSuccessful()) {
 
-        BarDataSet barDataSet = new BarDataSet(listBar, "Example");
+                    for (DocumentSnapshot document : task.getResult()) {
 
-        BarData barData = new BarData(barDataSet);
-        barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+                        listDailyDatas.add(new DailyData(document.getId(),Float.parseFloat(document.get(CUSTOMER).toString())));
 
-        mBarChart.setData(barData);
-        mBarChart.animateY(5000);
-        mBarChart.invalidate();
+                    }
+                    for (int i = 0; i <listDailyDatas.size() ; i++) {
+                        mListBars.add(new BarEntry((float)i,listDailyDatas.get(i).getCustomer()));
+                    }
+                    BarDataSet barDataSet = new BarDataSet(mListBars, "Customer per day");
+                    BarData barData = new BarData(barDataSet);
+                    barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+
+                    mBarChart.setData(barData);
+                    mBarChart.animateY(5000);
+                    XAxis xAxis=mBarChart.getXAxis();
+                    xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+                    xAxis.setTextSize(5f);
+                    xAxis.setValueFormatter(new IAxisValueFormatter() {
+                        @Override
+                        public String getFormattedValue(float value, AxisBase axis) {
+                            return listDailyDatas.get((int)value).getDay();
+                        }
+                    });
+                    mBarChart.getDescription().setEnabled(false);
+                    xAxis.setGranularity(1f);
+                    mBarChart.invalidate();
+                    Log.e("ádasd",listDailyDatas.size()+"");
+
+                }
+                else{
+                    Log.e(DAILY_DATA, "Error getting documents.", task.getException());
+                }
+
+            }
+        });
+
     }
 
     private void initView() {
