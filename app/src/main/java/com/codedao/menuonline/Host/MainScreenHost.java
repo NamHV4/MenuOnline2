@@ -15,28 +15,35 @@ import com.codedao.menuonline.Adapter.RecyclerviewBlockAdapter;
 import com.codedao.menuonline.Interface.RecyclerviewBlockItemClick;
 import com.codedao.menuonline.Model.Block;
 import com.codedao.menuonline.Model.DailyData;
+import com.codedao.menuonline.Model.Meal;
 import com.codedao.menuonline.R;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.shashank.sony.fancygifdialoglib.FancyGifDialog;
 import com.shashank.sony.fancygifdialoglib.FancyGifDialogListener;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -49,11 +56,15 @@ public class MainScreenHost extends AppCompatActivity implements RecyclerviewBlo
     private RecyclerView.LayoutManager mLayoutManager;
     private BarChart mBarChart;
     private PieChart mPieChart;
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private FirebaseFirestore mDatabase = FirebaseFirestore.getInstance();
     private static final String DAILY_DATA = "dailyData";
     private static final String CUSTOMER = "customer";
+    private static final String MEAL = "meal";
+    private static final String COST = "cost";
     private ArrayList<BarEntry> mListBars;
-
+    ArrayList<PieEntry> mListEntries;
+    private ArrayList<DailyData> mListDailyDatas;
+    private ArrayList<Meal> mListMeals;
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,23 +73,57 @@ public class MainScreenHost extends AppCompatActivity implements RecyclerviewBlo
         getTransformEffect();
         getSupportActionBar().hide();
         initView();
-        initBarChart();
-        initPieChart();
+
+        retriveDataFromCloud();
+
+//        initBarChart();
+//        initPieChart();
         initRcv();
 
     }
 
-    private void initPieChart() {
-        mPieChart.setRotationEnabled(true);
-        ArrayList<PieEntry> listEntries = new ArrayList<>();
-        listEntries.add(new PieEntry(0f, 15f));
-        listEntries.add(new PieEntry(1f, 35f));
-        listEntries.add(new PieEntry(2f, 22f));
-        listEntries.add(new PieEntry(3f, 10f));
-        listEntries.add(new PieEntry(4f, 20f));
-        listEntries.add(new PieEntry(5f, 30f));
+    private void retriveDataFromCloud() {
+        mListDailyDatas = new ArrayList<>();
+        mDatabase.collection(DAILY_DATA).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (DocumentSnapshot document : task.getResult()) {
 
-        PieDataSet pieDataSet = new PieDataSet(listEntries, "");
+                        mListDailyDatas.add(new DailyData(document.getId(), Float.parseFloat(document.get(CUSTOMER).toString())));
+                        initBarChart();
+                    }
+                } else {
+                    Log.e(DAILY_DATA, "Error getting daily data documents.", task.getException());
+                }
+            }
+        });
+
+        mListMeals =new ArrayList<>();
+        mDatabase.collection(MEAL).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()){
+                    for (DocumentSnapshot documentSnapshot:task.getResult()){
+                        mListMeals.add(new Meal(documentSnapshot.getId(),Float.parseFloat(documentSnapshot.get(COST).toString())));
+                        initPieChart();
+                    }
+                }else {
+                    Log.e(DAILY_DATA, "Error getting meal documents.", task.getException());
+                }
+            }
+        });
+
+    }
+
+    private void initPieChart() {
+        mListEntries = new ArrayList<>();
+        for (int i = 0; i <mListMeals.size() ; i++) {
+                mListEntries.add(new PieEntry(mListMeals.get(i).getCost(),mListMeals.get(i).getName()));
+
+        }
+        PieDataSet pieDataSet = new PieDataSet(mListEntries, "Meal cost");
+        pieDataSet.setYValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
         pieDataSet.setColors(ColorTemplate.JOYFUL_COLORS);
         mPieChart.setDrawHoleEnabled(true);
         mPieChart.setTransparentCircleRadius(40f);
@@ -86,8 +131,16 @@ public class MainScreenHost extends AppCompatActivity implements RecyclerviewBlo
 //        mPieChart.setDrawSlicesUnderHole(false);
         pieDataSet.setSliceSpace(3f);
         PieData pieData = new PieData(pieDataSet);
-        mPieChart.setUsePercentValues(true);
+//        mPieChart.setUsePercentValues(true);
         mPieChart.setData(pieData);
+        mPieChart.getDescription().setEnabled(false);
+        mPieChart.setRotationEnabled(true);
+//        pieData.setValueFormatter(new IValueFormatter() {
+//            @Override
+//            public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+//                return null;
+//            }
+//        });
         mPieChart.invalidate();
 
 
@@ -112,50 +165,33 @@ public class MainScreenHost extends AppCompatActivity implements RecyclerviewBlo
 
     private void initBarChart() {
 
-        db.collection(DAILY_DATA).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        mListBars = new ArrayList<>();
+
+        for (int i = 0; i < mListDailyDatas.size(); i++) {
+            mListBars.add(new BarEntry((float) i, mListDailyDatas.get(i).getCustomer()));
+        }
+        BarDataSet barDataSet = new BarDataSet(mListBars, "Customer per day");
+        BarData barData = new BarData(barDataSet);
+        barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+
+        mBarChart.setData(barData);
+        mBarChart.animateY(5000);
+        XAxis xAxis = mBarChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setTextSize(5f);
+        xAxis.setValueFormatter(new IAxisValueFormatter() {
             @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                mListBars = new ArrayList<>();
-                final ArrayList<DailyData> listDailyDatas=new ArrayList<>();
-                if (task.isSuccessful()) {
-
-                    for (DocumentSnapshot document : task.getResult()) {
-
-                        listDailyDatas.add(new DailyData(document.getId(),Float.parseFloat(document.get(CUSTOMER).toString())));
-
-                    }
-                    for (int i = 0; i <listDailyDatas.size() ; i++) {
-                        mListBars.add(new BarEntry((float)i,listDailyDatas.get(i).getCustomer()));
-                    }
-                    BarDataSet barDataSet = new BarDataSet(mListBars, "Customer per day");
-                    BarData barData = new BarData(barDataSet);
-                    barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
-
-                    mBarChart.setData(barData);
-                    mBarChart.animateY(5000);
-                    XAxis xAxis=mBarChart.getXAxis();
-                    xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-                    xAxis.setTextSize(5f);
-                    xAxis.setValueFormatter(new IAxisValueFormatter() {
-                        @Override
-                        public String getFormattedValue(float value, AxisBase axis) {
-                            return listDailyDatas.get((int)value).getDay();
-                        }
-                    });
-                    mBarChart.getDescription().setEnabled(false);
-                    xAxis.setGranularity(1f);
-                    mBarChart.invalidate();
-                    Log.e("ádasd",listDailyDatas.size()+"");
-
-                }
-                else{
-                    Log.e(DAILY_DATA, "Error getting documents.", task.getException());
-                }
-
+            public String getFormattedValue(float value, AxisBase axis) {
+                return mListDailyDatas.get((int) value).getDay();
             }
         });
+        mBarChart.getDescription().setEnabled(false);
+        xAxis.setGranularity(1f);
+        mBarChart.invalidate();
+
 
     }
+
 
     private void initView() {
         mRcvBlock = findViewById(R.id.rcvBlock);
