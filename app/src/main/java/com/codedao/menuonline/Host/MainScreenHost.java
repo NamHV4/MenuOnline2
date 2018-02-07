@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +14,7 @@ import android.transition.Explode;
 import android.util.Log;
 
 import com.codedao.menuonline.Adapter.RecyclerviewBlockAdapter;
+import com.codedao.menuonline.Adapter.ViewpagerCustomAdapter;
 import com.codedao.menuonline.Interface.RecyclerviewBlockItemClick;
 import com.codedao.menuonline.Model.Block;
 import com.codedao.menuonline.Model.DailyData;
@@ -67,7 +69,8 @@ public class MainScreenHost extends AppCompatActivity implements RecyclerviewBlo
     private ArrayList<PieEntry> mListEntries;
     private ArrayList<DailyData> mListDailyDatas;
     private ArrayList<Meal> mListMeals;
-    NavigationTabStrip mTabStrip;
+    private NavigationTabStrip mTabStrip;
+    private ViewPager mViewpager;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -79,14 +82,21 @@ public class MainScreenHost extends AppCompatActivity implements RecyclerviewBlo
         getSupportActionBar().setElevation(0f);
         initView();
         initTabStrip();
+        initViewpager();
+        mTabStrip.setViewPager(mViewpager);
         retriveDataFromCloud();
 //        initBarChart();
 //        initPieChart();
         initRcv();
     }
 
+    private void initViewpager() {
+        mViewpager.setAdapter(new ViewpagerCustomAdapter(getApplicationContext(),getSupportFragmentManager()));
+        mViewpager.setCurrentItem(0);
+    }
+
     private void initTabStrip() {
-        mTabStrip.setTitles("Revenue", "Customer", "Meal");
+        mTabStrip.setTitles("Revenue", "Customer");
         mTabStrip.setInactiveColor(Color.WHITE);
 
     }
@@ -234,6 +244,7 @@ public class MainScreenHost extends AppCompatActivity implements RecyclerviewBlo
         mPieChart = findViewById(R.id.pie);
         mLineChart = findViewById(R.id.line);
         mTabStrip=findViewById(R.id.tabStrip);
+        mViewpager=findViewById(R.id.viewpager);
     }
 
     @Override

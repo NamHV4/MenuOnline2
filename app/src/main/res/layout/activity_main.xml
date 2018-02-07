@@ -12,7 +12,12 @@
         android:id="@+id/tabStrip"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="#2EA67F"/>
+        android:background="#2EA67F" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="400dp" />
 
     <ScrollView
         android:layout_width="match_parent"
