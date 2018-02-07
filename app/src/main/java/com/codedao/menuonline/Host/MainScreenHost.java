@@ -18,12 +18,16 @@ import com.codedao.menuonline.Model.DailyData;
 import com.codedao.menuonline.Model.Meal;
 import com.codedao.menuonline.R;
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
@@ -44,6 +48,7 @@ import static com.codedao.menuonline.DbCommon.COST;
 import static com.codedao.menuonline.DbCommon.CUSTOMER;
 import static com.codedao.menuonline.DbCommon.DAILY_DATA;
 import static com.codedao.menuonline.DbCommon.MEAL;
+import static com.codedao.menuonline.DbCommon.REVENUE;
 
 
 public class MainScreenHost extends AppCompatActivity implements RecyclerviewBlockItemClick {
@@ -54,6 +59,7 @@ public class MainScreenHost extends AppCompatActivity implements RecyclerviewBlo
     private RecyclerView.LayoutManager mLayoutManager;
     private BarChart mBarChart;
     private PieChart mPieChart;
+    private LineChart mLineChart;
     private FirebaseFirestore mDatabase = FirebaseFirestore.getInstance();
     private ArrayList<BarEntry> mListBars;
     private ArrayList<PieEntry> mListEntries;
@@ -82,11 +88,12 @@ public class MainScreenHost extends AppCompatActivity implements RecyclerviewBlo
                 if (task.isSuccessful()) {
                     for (DocumentSnapshot document : task.getResult()) {
 
-                        mListDailyDatas.add(new DailyData(document.getId(), Float.parseFloat(document.get(CUSTOMER).toString())));
+                        mListDailyDatas.add(new DailyData(document.getId(), Float.parseFloat(document.get(CUSTOMER).toString()), Float.parseFloat(document.get(REVENUE).toString())));
                         initBarChart();
+                        initLineChart();
                     }
                 } else {
-                    Log.e(DAILY_DATA, "Error getting daily data documents.", task.getException());
+                    Log.e(DAILY_DATA, getString(R.string.get_daily_error), task.getException());
                 }
             }
         });
@@ -101,10 +108,63 @@ public class MainScreenHost extends AppCompatActivity implements RecyclerviewBlo
                         initPieChart();
                     }
                 } else {
-                    Log.e(DAILY_DATA, "Error getting meal documents.", task.getException());
+                    Log.e(DAILY_DATA, getString(R.string.get_meal_error), task.getException());
                 }
             }
         });
+
+    }
+
+    private void initLineChart() {
+        ArrayList<Entry> listEntries = new ArrayList<>();
+        for (int i = 0; i < mListDailyDatas.size(); i++) {
+            listEntries.add(new Entry((float) i,mListDailyDatas.get(i).getRevenue()));
+        }
+        LineDataSet lineDataSet = new LineDataSet(listEntries, "Daily revenue");
+        LineData lineData = new LineData(lineDataSet);
+
+        XAxis xAxis=mLineChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setTextSize(5f);
+        xAxis.setValueFormatter(new IAxisValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                return mListDailyDatas.get((int)value).getDay();
+            }
+        });
+        mLineChart.setData(lineData);
+        mLineChart.animateY(5000);
+        mLineChart.getDescription().setEnabled(false);
+        mBarChart.getDescription().setEnabled(false);
+        mLineChart.invalidate();
+    }
+
+    private void initBarChart() {
+
+        mListBars = new ArrayList<>();
+
+        for (int i = 0; i < mListDailyDatas.size(); i++) {
+            mListBars.add(new BarEntry((float) i, mListDailyDatas.get(i).getCustomer()));
+        }
+        BarDataSet barDataSet = new BarDataSet(mListBars, getString(R.string.customer_per_day));
+        BarData barData = new BarData(barDataSet);
+        barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+
+        mBarChart.setData(barData);
+        mBarChart.animateY(5000);
+        XAxis xAxis = mBarChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setTextSize(5f);
+        xAxis.setValueFormatter(new IAxisValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                return mListDailyDatas.get((int) value).getDay();
+            }
+        });
+        mBarChart.getDescription().setEnabled(false);
+        xAxis.setGranularity(1f);
+        mBarChart.invalidate();
+
 
     }
 
@@ -114,7 +174,7 @@ public class MainScreenHost extends AppCompatActivity implements RecyclerviewBlo
             mListEntries.add(new PieEntry(mListMeals.get(i).getCost(), mListMeals.get(i).getName()));
 
         }
-        PieDataSet pieDataSet = new PieDataSet(mListEntries, "Meal cost");
+        PieDataSet pieDataSet = new PieDataSet(mListEntries, getString(R.string.meal_cost));
         pieDataSet.setYValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
         pieDataSet.setColors(ColorTemplate.JOYFUL_COLORS);
         mPieChart.setDrawHoleEnabled(true);
@@ -156,41 +216,12 @@ public class MainScreenHost extends AppCompatActivity implements RecyclerviewBlo
         mRcvBlock.setAdapter(mAdapter);
     }
 
-    private void initBarChart() {
-
-        mListBars = new ArrayList<>();
-
-        for (int i = 0; i < mListDailyDatas.size(); i++) {
-            mListBars.add(new BarEntry((float) i, mListDailyDatas.get(i).getCustomer()));
-        }
-        BarDataSet barDataSet = new BarDataSet(mListBars, "Customer per day");
-        BarData barData = new BarData(barDataSet);
-        barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
-
-        mBarChart.setData(barData);
-        mBarChart.animateY(5000);
-        XAxis xAxis = mBarChart.getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setTextSize(5f);
-        xAxis.setValueFormatter(new IAxisValueFormatter() {
-            @Override
-            public String getFormattedValue(float value, AxisBase axis) {
-                return mListDailyDatas.get((int) value).getDay();
-            }
-        });
-        mBarChart.getDescription().setEnabled(false);
-        xAxis.setGranularity(1f);
-        mBarChart.invalidate();
-
-
-    }
-
 
     private void initView() {
         mRcvBlock = findViewById(R.id.rcvBlock);
         mBarChart = findViewById(R.id.chart);
         mPieChart = findViewById(R.id.pie);
-
+        mLineChart = findViewById(R.id.line);
     }
 
     @Override

@@ -14,4 +14,9 @@
     <string name="title">Foody</string>
     <string name="table">Table</string>
     <string name="checkin_for">Check in for</string>
+    <string name="enable_flashlight">Enable flashlight</string>
+    <string name="meal_cost">Meal cost</string>
+    <string name="customer_per_day">Customer per day</string>
+    <string name="get_meal_error">Error getting meal documents.</string>
+    <string name="get_daily_error">Error getting daily data documents.</string>
 </resources>

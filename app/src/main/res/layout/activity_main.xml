@@ -30,6 +30,14 @@
             android:layout_marginTop="10dp"
             android:background="#FFF" />
 
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="10dp"
+            android:background="#FFF" />
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rcvBlock"
             android:layout_width="match_parent"

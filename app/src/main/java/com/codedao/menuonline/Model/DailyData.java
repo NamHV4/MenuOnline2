@@ -7,6 +7,15 @@ package com.codedao.menuonline.Model;
 public class DailyData {
     String day;
     float customer;
+    float revenue;
+
+    public float getRevenue() {
+        return revenue;
+    }
+
+    public void setRevenue(float revenue) {
+        this.revenue = revenue;
+    }
 
     public String getDay() {
         StringBuffer s=new StringBuffer(day);
@@ -27,9 +36,10 @@ public class DailyData {
         this.customer = customer;
     }
 
-    public DailyData(String day, float customer) {
+    public DailyData(String day, float customer,float revenue) {
         this.day = day;
         this.customer = customer;
+        this.revenue=revenue;
     }
 
     public DailyData() {

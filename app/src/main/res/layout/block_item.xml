@@ -15,7 +15,6 @@
             android:id="@+id/blockCounter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="1111111"
             android:textAlignment="center"
             android:textSize="25sp" />
 
@@ -23,8 +22,6 @@
             android:id="@+id/blockContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/blockCounter"
-            android:text="aaa"
             android:textAlignment="center"
             android:textSize="15sp" />
 
