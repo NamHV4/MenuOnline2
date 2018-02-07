@@ -1,5 +1,6 @@
 package com.codedao.menuonline.Host;
 
+import android.app.Fragment;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Build;
@@ -57,6 +58,7 @@ import static com.codedao.menuonline.DbCommon.REVENUE;
 
 public class MainScreenHost extends AppCompatActivity implements RecyclerviewBlockItemClick {
 
+    private final String TAG ="NamHV4";
     private ArrayList<Block> mListBlocks = new ArrayList<>();
     private RecyclerView mRcvBlock;
     private RecyclerviewBlockAdapter mAdapter;
@@ -81,16 +83,35 @@ public class MainScreenHost extends AppCompatActivity implements RecyclerviewBlo
         getTransformEffect();
 //        getSupportActionBar().hide();
         getSupportActionBar().setElevation(0f);
-
-        iDataTransferInterface= (IDataTransferInterface) this; // how to init interface from activity???need fix
+        Log.d(TAG, "onCreate: ");
         initView();
         initTabStrip();
         initViewpager();
         mTabStrip.setViewPager(mViewpager);
         retriveDataFromCloud();
+
+        //NamHV4
+        RevenueFragment fragment = new RevenueFragment();
+        iDataTransferInterface = fragment;
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.viewpager, fragment, "fragmentTag")
+                .commit();
+
 //        initBarChart();
 //        initPieChart();
         initRcv();
+    }
+
+    @Override
+    public void onAttachFragment(Fragment fragment) {
+        Log.d(TAG, "onAttachFragment: fragment"+fragment);
+        super.onAttachFragment(fragment);
+//        if (fragment instanceof IDataTransferInterface){
+//            iDataTransferInterface = (IDataTransferInterface) fragment;
+//        }
+
     }
 
     private void initViewpager() {
@@ -105,19 +126,22 @@ public class MainScreenHost extends AppCompatActivity implements RecyclerviewBlo
     }
 
     private void retriveDataFromCloud() {
+        Log.d(TAG, "retriveDataFromCloud: ");
         mListDailyDatas = new ArrayList<>();
         mDatabase.collection(DAILY_DATA).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (DocumentSnapshot document : task.getResult()) {
-
                         mListDailyDatas.add(new DailyData(document.getId(), Float.parseFloat(document.get(CUSTOMER).toString()), Float.parseFloat(document.get(REVENUE).toString())));
                         initBarChart();
                         initLineChart();
+                    }
+                    if (iDataTransferInterface != null) {
+                        Log.d(TAG, "onComplete() called with: onTransfer");
                         iDataTransferInterface.onTransfer(mListDailyDatas);
                     }
-                } else {
+            } else {
                     Log.e(DAILY_DATA, getString(R.string.get_daily_error), task.getException());
                 }
             }
