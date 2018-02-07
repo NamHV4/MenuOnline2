@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.codedao.menuonline.Host.CustomerFragment;
+import com.codedao.menuonline.Host.MealFragment;
 import com.codedao.menuonline.Host.RevenueFragment;
 
 /**
@@ -31,6 +32,9 @@ public class ViewpagerCustomAdapter extends FragmentPagerAdapter {
             case 1:
                 f = CustomerFragment.newInstance(mContext);
                 break;
+            case 2:
+                f = MealFragment.newInstance(mContext);
+                break;
 
         }
         return f;
@@ -38,6 +42,6 @@ public class ViewpagerCustomAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 2;
+        return 3;
     }
 }

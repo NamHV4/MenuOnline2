@@ -71,6 +71,7 @@ public class MainScreenHost extends AppCompatActivity implements RecyclerviewBlo
     private ArrayList<Meal> mListMeals;
     private NavigationTabStrip mTabStrip;
     private ViewPager mViewpager;
+    private IDataTransferInterface iDataTransferInterface;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -80,6 +81,8 @@ public class MainScreenHost extends AppCompatActivity implements RecyclerviewBlo
         getTransformEffect();
 //        getSupportActionBar().hide();
         getSupportActionBar().setElevation(0f);
+
+        iDataTransferInterface= (IDataTransferInterface) this; // how to init interface from activity???need fix
         initView();
         initTabStrip();
         initViewpager();
@@ -91,12 +94,12 @@ public class MainScreenHost extends AppCompatActivity implements RecyclerviewBlo
     }
 
     private void initViewpager() {
-        mViewpager.setAdapter(new ViewpagerCustomAdapter(getApplicationContext(),getSupportFragmentManager()));
+        mViewpager.setAdapter(new ViewpagerCustomAdapter(getApplicationContext(), getSupportFragmentManager()));
         mViewpager.setCurrentItem(0);
     }
 
     private void initTabStrip() {
-        mTabStrip.setTitles("Revenue", "Customer");
+        mTabStrip.setTitles("Revenue", "Customer", "Meal");
         mTabStrip.setInactiveColor(Color.WHITE);
 
     }
@@ -112,6 +115,7 @@ public class MainScreenHost extends AppCompatActivity implements RecyclerviewBlo
                         mListDailyDatas.add(new DailyData(document.getId(), Float.parseFloat(document.get(CUSTOMER).toString()), Float.parseFloat(document.get(REVENUE).toString())));
                         initBarChart();
                         initLineChart();
+                        iDataTransferInterface.onTransfer(mListDailyDatas);
                     }
                 } else {
                     Log.e(DAILY_DATA, getString(R.string.get_daily_error), task.getException());
@@ -136,6 +140,7 @@ public class MainScreenHost extends AppCompatActivity implements RecyclerviewBlo
 
     }
 
+
     private void initLineChart() {
         ArrayList<Entry> listEntries = new ArrayList<>();
         for (int i = 0; i < mListDailyDatas.size(); i++) {
@@ -156,7 +161,7 @@ public class MainScreenHost extends AppCompatActivity implements RecyclerviewBlo
         mLineChart.setData(lineData);
         mLineChart.animateY(5000);
         mLineChart.getDescription().setEnabled(false);
-        mBarChart.getDescription().setEnabled(false);
+        mLineChart.getDescription().setEnabled(false);
         mLineChart.invalidate();
     }
 
@@ -243,8 +248,8 @@ public class MainScreenHost extends AppCompatActivity implements RecyclerviewBlo
         mBarChart = findViewById(R.id.chart);
         mPieChart = findViewById(R.id.pie);
         mLineChart = findViewById(R.id.line);
-        mTabStrip=findViewById(R.id.tabStrip);
-        mViewpager=findViewById(R.id.viewpager);
+        mTabStrip = findViewById(R.id.tabStrip);
+        mViewpager = findViewById(R.id.viewpager);
     }
 
     @Override
@@ -288,4 +293,8 @@ public class MainScreenHost extends AppCompatActivity implements RecyclerviewBlo
 
         fancyGifDialog.build();
     }
+
+public interface IDataTransferInterface{
+        void onTransfer(ArrayList<DailyData> listDailyData);
+}
 }
