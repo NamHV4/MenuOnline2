@@ -20,32 +20,30 @@ import com.codedao.menuonline.R;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.AxisBase;
-import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
-import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
-import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.shashank.sony.fancygifdialoglib.FancyGifDialog;
 import com.shashank.sony.fancygifdialoglib.FancyGifDialogListener;
 
 import java.util.ArrayList;
 import java.util.Random;
+
+import static com.codedao.menuonline.DbCommon.COST;
+import static com.codedao.menuonline.DbCommon.CUSTOMER;
+import static com.codedao.menuonline.DbCommon.DAILY_DATA;
+import static com.codedao.menuonline.DbCommon.MEAL;
 
 
 public class MainScreenHost extends AppCompatActivity implements RecyclerviewBlockItemClick {
@@ -57,14 +55,11 @@ public class MainScreenHost extends AppCompatActivity implements RecyclerviewBlo
     private BarChart mBarChart;
     private PieChart mPieChart;
     private FirebaseFirestore mDatabase = FirebaseFirestore.getInstance();
-    private static final String DAILY_DATA = "dailyData";
-    private static final String CUSTOMER = "customer";
-    private static final String MEAL = "meal";
-    private static final String COST = "cost";
     private ArrayList<BarEntry> mListBars;
-    ArrayList<PieEntry> mListEntries;
+    private ArrayList<PieEntry> mListEntries;
     private ArrayList<DailyData> mListDailyDatas;
     private ArrayList<Meal> mListMeals;
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,13 +68,10 @@ public class MainScreenHost extends AppCompatActivity implements RecyclerviewBlo
         getTransformEffect();
         getSupportActionBar().hide();
         initView();
-
         retriveDataFromCloud();
-
 //        initBarChart();
 //        initPieChart();
         initRcv();
-
     }
 
     private void retriveDataFromCloud() {
@@ -99,16 +91,16 @@ public class MainScreenHost extends AppCompatActivity implements RecyclerviewBlo
             }
         });
 
-        mListMeals =new ArrayList<>();
+        mListMeals = new ArrayList<>();
         mDatabase.collection(MEAL).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()){
-                    for (DocumentSnapshot documentSnapshot:task.getResult()){
-                        mListMeals.add(new Meal(documentSnapshot.getId(),Float.parseFloat(documentSnapshot.get(COST).toString())));
+                if (task.isSuccessful()) {
+                    for (DocumentSnapshot documentSnapshot : task.getResult()) {
+                        mListMeals.add(new Meal(documentSnapshot.getId(), Float.parseFloat(documentSnapshot.get(COST).toString())));
                         initPieChart();
                     }
-                }else {
+                } else {
                     Log.e(DAILY_DATA, "Error getting meal documents.", task.getException());
                 }
             }
@@ -118,8 +110,8 @@ public class MainScreenHost extends AppCompatActivity implements RecyclerviewBlo
 
     private void initPieChart() {
         mListEntries = new ArrayList<>();
-        for (int i = 0; i <mListMeals.size() ; i++) {
-                mListEntries.add(new PieEntry(mListMeals.get(i).getCost(),mListMeals.get(i).getName()));
+        for (int i = 0; i < mListMeals.size(); i++) {
+            mListEntries.add(new PieEntry(mListMeals.get(i).getCost(), mListMeals.get(i).getName()));
 
         }
         PieDataSet pieDataSet = new PieDataSet(mListEntries, "Meal cost");
@@ -141,7 +133,6 @@ public class MainScreenHost extends AppCompatActivity implements RecyclerviewBlo
 //                return null;
 //            }
 //        });
-//        mPieChart.animateX(5000);
         mPieChart.animateY(5000);
         mPieChart.invalidate();
 
