@@ -3,6 +3,7 @@
     package="com.codedao.menuonline">
 
     <uses-permission android:name="android.permission.CAMERA" />
+
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
@@ -22,8 +23,10 @@
         </activity>
         <activity
             android:name=".RegisterActivity"
-            android:theme="@style/Translucent"/>
-        <activity android:name=".Host.MainScreenHost" />
+            android:theme="@style/Translucent" />
+        <activity
+            android:name=".Host.MainScreenHost"
+            android:theme="@style/AppThemeNormal" />
         <activity
             android:name=".Guest.MainScreenGuest"
             android:theme="@style/AppTheme" />

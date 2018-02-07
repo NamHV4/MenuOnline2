@@ -1,6 +1,7 @@
 package com.codedao.menuonline.Host;
 
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
@@ -17,6 +18,7 @@ import com.codedao.menuonline.Model.Block;
 import com.codedao.menuonline.Model.DailyData;
 import com.codedao.menuonline.Model.Meal;
 import com.codedao.menuonline.R;
+import com.gigamole.navigationtabstrip.NavigationTabStrip;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
@@ -65,6 +67,7 @@ public class MainScreenHost extends AppCompatActivity implements RecyclerviewBlo
     private ArrayList<PieEntry> mListEntries;
     private ArrayList<DailyData> mListDailyDatas;
     private ArrayList<Meal> mListMeals;
+    NavigationTabStrip mTabStrip;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -72,12 +75,20 @@ public class MainScreenHost extends AppCompatActivity implements RecyclerviewBlo
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getTransformEffect();
-        getSupportActionBar().hide();
+//        getSupportActionBar().hide();
+        getSupportActionBar().setElevation(0f);
         initView();
+        initTabStrip();
         retriveDataFromCloud();
 //        initBarChart();
 //        initPieChart();
         initRcv();
+    }
+
+    private void initTabStrip() {
+        mTabStrip.setTitles("Revenue", "Customer", "Meal");
+        mTabStrip.setInactiveColor(Color.WHITE);
+
     }
 
     private void retriveDataFromCloud() {
@@ -118,18 +129,18 @@ public class MainScreenHost extends AppCompatActivity implements RecyclerviewBlo
     private void initLineChart() {
         ArrayList<Entry> listEntries = new ArrayList<>();
         for (int i = 0; i < mListDailyDatas.size(); i++) {
-            listEntries.add(new Entry((float) i,mListDailyDatas.get(i).getRevenue()));
+            listEntries.add(new Entry((float) i, mListDailyDatas.get(i).getRevenue()));
         }
         LineDataSet lineDataSet = new LineDataSet(listEntries, "Daily revenue");
         LineData lineData = new LineData(lineDataSet);
 
-        XAxis xAxis=mLineChart.getXAxis();
+        XAxis xAxis = mLineChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setTextSize(5f);
         xAxis.setValueFormatter(new IAxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
-                return mListDailyDatas.get((int)value).getDay();
+                return mListDailyDatas.get((int) value).getDay();
             }
         });
         mLineChart.setData(lineData);
@@ -222,6 +233,7 @@ public class MainScreenHost extends AppCompatActivity implements RecyclerviewBlo
         mBarChart = findViewById(R.id.chart);
         mPieChart = findViewById(R.id.pie);
         mLineChart = findViewById(R.id.line);
+        mTabStrip=findViewById(R.id.tabStrip);
     }
 
     @Override

@@ -26,6 +26,17 @@
         <item name="colorControlActivated">#FFCC00</item>
     </style>
 
+    <style name="AppThemeNormal" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <!--translucent statusbar-->
+        <item name="colorPrimary">#2ea67f</item>
+        <item name="colorPrimaryDark">#258164</item>
+        <item name="colorAccent">#2ea67f</item>
+
+
+        <!-- set Can use Activity transitions -->
+        <item name="android:windowContentTransitions">true</item>
+    </style>
 
 
 </resources>
