@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.codedao.menuonline.BaseFragment;
 import com.codedao.menuonline.Model.DailyData;
 import com.codedao.menuonline.R;
 import com.github.mikephil.charting.charts.LineChart;
@@ -26,7 +27,7 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class RevenueFragment extends Fragment implements MainScreenHost.IDataTransferInterface {
+public class RevenueFragment extends BaseFragment implements MainScreenHost.IDataTransferInterface {
     LineChart mLineChart;
     private final String TAG ="NamVH4-RevenueFragment";
     public RevenueFragment() {
@@ -88,4 +89,5 @@ public class RevenueFragment extends Fragment implements MainScreenHost.IDataTra
             mLineChart.invalidate();
 
     }
+
 }

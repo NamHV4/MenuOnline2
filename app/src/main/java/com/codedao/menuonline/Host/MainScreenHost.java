@@ -16,6 +16,7 @@ import android.util.Log;
 
 import com.codedao.menuonline.Adapter.RecyclerviewBlockAdapter;
 import com.codedao.menuonline.Adapter.ViewpagerCustomAdapter;
+import com.codedao.menuonline.BaseActivity;
 import com.codedao.menuonline.Interface.RecyclerviewBlockItemClick;
 import com.codedao.menuonline.Model.Block;
 import com.codedao.menuonline.Model.DailyData;
@@ -56,7 +57,7 @@ import static com.codedao.menuonline.DbCommon.MEAL;
 import static com.codedao.menuonline.DbCommon.REVENUE;
 
 
-public class MainScreenHost extends AppCompatActivity implements RecyclerviewBlockItemClick {
+public class MainScreenHost extends BaseActivity implements RecyclerviewBlockItemClick {
 
     private final String TAG ="NamHV4";
     private ArrayList<Block> mListBlocks = new ArrayList<>();
