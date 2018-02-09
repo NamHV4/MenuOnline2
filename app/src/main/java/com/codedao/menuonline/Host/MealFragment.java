@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.codedao.menuonline.BaseFragment;
 import com.codedao.menuonline.Model.DailyData;
 import com.codedao.menuonline.Model.Meal;
 import com.codedao.menuonline.R;
@@ -23,13 +24,15 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MealFragment extends Fragment {
+public class MealFragment extends BaseFragment {
 
     PieChart mPieChart;
+
     public MealFragment() {
         // Required empty public constructor
     }
-    public static Fragment newInstance(Context context){
+
+    public static Fragment newInstance(Context context) {
         return new MealFragment();
     }
 
@@ -43,9 +46,10 @@ public class MealFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mPieChart=view.findViewById(R.id.piechart);
+        mPieChart = view.findViewById(R.id.piechart);
         initPieChart(MainScreenHost.mListMeals);
     }
+
     private void initPieChart(ArrayList<Meal> mListMeals) {
         ArrayList<PieEntry> mListEntries = new ArrayList<>();
         for (int i = 0; i < mListMeals.size(); i++) {

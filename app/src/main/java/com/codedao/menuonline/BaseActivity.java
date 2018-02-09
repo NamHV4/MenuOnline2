@@ -10,7 +10,7 @@ import android.util.Log;
  */
 
 public class BaseActivity extends AppCompatActivity {
-    static final String TAG="-----ACTIVITY LIFECYCLE";
+    static final String TAG="minhtq-----ACTIVITY LIFECYCLE";
     @Override
     protected void onDestroy() {
         super.onDestroy();

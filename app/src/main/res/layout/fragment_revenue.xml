@@ -13,6 +13,16 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="10dp"
+                android:background="#FFF"
+                android:text="Revenue"
+                android:textAlignment="center"
+                android:textSize="30sp" />
+
             <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/linechart"
                 android:layout_width="match_parent"

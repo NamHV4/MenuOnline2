@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.codedao.menuonline.BaseFragment;
 import com.codedao.menuonline.Model.DailyData;
 import com.codedao.menuonline.R;
 import com.github.mikephil.charting.charts.BarChart;
@@ -25,7 +26,7 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CustomerFragment extends Fragment {
+public class CustomerFragment extends BaseFragment {
     BarChart mBarChart;
 
     public CustomerFragment() {
