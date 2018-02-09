@@ -1,13 +1,46 @@
 package com.codedao.menuonline.Model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by Administrator on 06/02/2018.
  */
 
-public class DailyData {
+public class DailyData implements Parcelable {
     String day;
     float customer;
     float revenue;
+
+    protected DailyData(Parcel in) {
+        day = in.readString();
+        customer = in.readFloat();
+        revenue = in.readFloat();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(day);
+        dest.writeFloat(customer);
+        dest.writeFloat(revenue);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<DailyData> CREATOR = new Creator<DailyData>() {
+        @Override
+        public DailyData createFromParcel(Parcel in) {
+            return new DailyData(in);
+        }
+
+        @Override
+        public DailyData[] newArray(int size) {
+            return new DailyData[size];
+        }
+    };
 
     public float getRevenue() {
         return revenue;

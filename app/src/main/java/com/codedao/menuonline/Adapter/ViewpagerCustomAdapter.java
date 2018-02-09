@@ -1,6 +1,7 @@
 package com.codedao.menuonline.Adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -16,9 +17,11 @@ import com.codedao.menuonline.Host.RevenueFragment;
 public class ViewpagerCustomAdapter extends FragmentPagerAdapter {
     private Context mContext;
 
+
     public ViewpagerCustomAdapter(Context context, FragmentManager fm) {
         super(fm);
         mContext = context;
+
     }
 
 
@@ -28,12 +31,15 @@ public class ViewpagerCustomAdapter extends FragmentPagerAdapter {
         switch (position) {
             case 0:
                 f = RevenueFragment.newInstance(mContext);
+
                 break;
             case 1:
                 f = CustomerFragment.newInstance(mContext);
+
                 break;
             case 2:
                 f = MealFragment.newInstance(mContext);
+
                 break;
 
         }

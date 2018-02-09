@@ -27,9 +27,10 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class RevenueFragment extends BaseFragment implements MainScreenHost.IDataTransferInterface {
+public class RevenueFragment extends BaseFragment {
     LineChart mLineChart;
     private final String TAG ="NamVH4-RevenueFragment";
+
     public RevenueFragment() {
         // Required empty public constructor
     }
@@ -38,6 +39,7 @@ public class RevenueFragment extends BaseFragment implements MainScreenHost.IDat
         RevenueFragment revenueFragment = new RevenueFragment();
         return revenueFragment;
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,15 +54,8 @@ public class RevenueFragment extends BaseFragment implements MainScreenHost.IDat
         super.onViewCreated(view, savedInstanceState);
         Log.d(TAG, "onViewCreated() called with: view = [" + view + "], savedInstanceState = [" + savedInstanceState + "]");
         mLineChart=view.findViewById(R.id.linechart);
-        mLineChart.invalidate();
+        initLineChart(MainScreenHost.mListDailyDatas);
 
-
-    }
-
-    @Override
-    public void onTransfer(ArrayList<DailyData> listDailyData) {
-        Log.d(TAG, "onTransfer: listDailyData size="+listDailyData.size());
-        initLineChart(listDailyData);
 
     }
 

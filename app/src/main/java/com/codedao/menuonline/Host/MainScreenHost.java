@@ -7,7 +7,6 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -70,11 +69,11 @@ public class MainScreenHost extends BaseActivity implements RecyclerviewBlockIte
     private FirebaseFirestore mDatabase = FirebaseFirestore.getInstance();
     private ArrayList<BarEntry> mListBars;
     private ArrayList<PieEntry> mListEntries;
-    private ArrayList<DailyData> mListDailyDatas;
-    private ArrayList<Meal> mListMeals;
+    static ArrayList<DailyData> mListDailyDatas;
+    static ArrayList<Meal> mListMeals;
     private NavigationTabStrip mTabStrip;
     private ViewPager mViewpager;
-    private IDataTransferInterface iDataTransferInterface;
+
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -82,26 +81,13 @@ public class MainScreenHost extends BaseActivity implements RecyclerviewBlockIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getTransformEffect();
-//        getSupportActionBar().hide();
         getSupportActionBar().setElevation(0f);
         Log.d(TAG, "onCreate: ");
         initView();
-        initTabStrip();
-        initViewpager();
-        mTabStrip.setViewPager(mViewpager);
+//        initTabStrip();
+//        initViewpager();
+//        mTabStrip.setViewPager(mViewpager);
         retriveDataFromCloud();
-
-        //NamHV4
-        RevenueFragment fragment = new RevenueFragment();
-        iDataTransferInterface = fragment;
-
-        getSupportFragmentManager()
-                .beginTransaction()
-                .add(R.id.viewpager, fragment, "fragmentTag")
-                .commit();
-
-//        initBarChart();
-//        initPieChart();
         initRcv();
     }
 
@@ -109,10 +95,6 @@ public class MainScreenHost extends BaseActivity implements RecyclerviewBlockIte
     public void onAttachFragment(Fragment fragment) {
         Log.d(TAG, "onAttachFragment: fragment"+fragment);
         super.onAttachFragment(fragment);
-//        if (fragment instanceof IDataTransferInterface){
-//            iDataTransferInterface = (IDataTransferInterface) fragment;
-//        }
-
     }
 
     private void initViewpager() {
@@ -138,10 +120,9 @@ public class MainScreenHost extends BaseActivity implements RecyclerviewBlockIte
                         initBarChart();
                         initLineChart();
                     }
-                    if (iDataTransferInterface != null) {
-                        Log.d(TAG, "onComplete() called with: onTransfer");
-                        iDataTransferInterface.onTransfer(mListDailyDatas);
-                    }
+                    initTabStrip();
+                    initViewpager();
+                    mTabStrip.setViewPager(mViewpager);
             } else {
                     Log.e(DAILY_DATA, getString(R.string.get_daily_error), task.getException());
                 }
@@ -164,8 +145,6 @@ public class MainScreenHost extends BaseActivity implements RecyclerviewBlockIte
         });
 
     }
-
-
     private void initLineChart() {
         ArrayList<Entry> listEntries = new ArrayList<>();
         for (int i = 0; i < mListDailyDatas.size(); i++) {
@@ -188,6 +167,7 @@ public class MainScreenHost extends BaseActivity implements RecyclerviewBlockIte
         mLineChart.getDescription().setEnabled(false);
         mLineChart.getDescription().setEnabled(false);
         mLineChart.invalidate();
+        Log.e(TAG,"chart invalidated");
     }
 
     private void initBarChart() {
@@ -215,8 +195,6 @@ public class MainScreenHost extends BaseActivity implements RecyclerviewBlockIte
         mBarChart.getDescription().setEnabled(false);
         xAxis.setGranularity(1f);
         mBarChart.invalidate();
-
-
     }
 
     private void initPieChart() {
@@ -319,7 +297,5 @@ public class MainScreenHost extends BaseActivity implements RecyclerviewBlockIte
         fancyGifDialog.build();
     }
 
-public interface IDataTransferInterface{
-        void onTransfer(ArrayList<DailyData> listDailyData);
-}
+
 }
